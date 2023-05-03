@@ -8,17 +8,30 @@ const resolvers = {
     },
 
     Mutation: {
-        loginUser: async (parent, args) => {
-            return Auth;
-        },
+        loginUser: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
 
-        addUser: async (parent, args) => {
-            return User.create(args);
+        if (!user) {
+        throw new AuthenticationError('No profile with this email found!');
+      }
+
+      const correctPw = await profile.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect password!');
+      }
+
+      const token = signToken(user);
+      return { token, user };
+    },
+
+        addUser: async (parent, { username, email, password}) => {
+            return User.create({ username });
         },
-        saveBook: async (parent, args) => {
+        saveBook: async (parent, { SavedBookContent }) => {
             return User;
         },
-        removeBook: async (parent, args) => {
+        removeBook: async (parent, { bookId }) => {
             return User;
     },
 },
