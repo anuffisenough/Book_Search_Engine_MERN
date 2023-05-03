@@ -47,9 +47,9 @@ const typeDefs = gql`
         format: MediaFormat!
     }
 
-    // input MediaFormat {
-    //     IMAGE
-    // }
+     input MediaFormat {
+         IMAGE
+     }
 `;
 
 module.exports = typeDefs;

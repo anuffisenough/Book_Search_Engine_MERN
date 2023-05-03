@@ -1,4 +1,4 @@
-import { gql } from ApolloServer;
+import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
     query me {
