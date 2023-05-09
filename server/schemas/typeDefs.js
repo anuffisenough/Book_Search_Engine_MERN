@@ -37,7 +37,7 @@ const typeDefs = gql`
 
     input MediaDetails {
         url: String!
-        format: String!
+        format: MediaDetails
     }
 
      input MediaDetails {
