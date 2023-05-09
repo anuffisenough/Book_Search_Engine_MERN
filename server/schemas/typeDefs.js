@@ -5,13 +5,6 @@ const typeDefs = gql`
         me: User
     }
     
-    type Mutation {
-        loginUser(email: String, password: String): Auth
-        addUser(username: String, email: String, password: String): Auth
-        saveBook(content: SavedBookContent): User
-        removeBook(bookId: ID): User
-    }
-    
     type User {
         _id: ID
         username: String
@@ -47,9 +40,21 @@ const typeDefs = gql`
         format: String!
     }
 
-     input MediaFormat {
-         IMAGE
+     input MediaDetails {
+        format: MediaFormat!
+        url: String!
      }
+
+     enum MediaFormat {
+        IMAGE
+     }
+     
+     type Mutation {
+        loginUser(email: String, password: String): Auth
+        addUser(username: String, email: String, password: String): Auth
+        saveBook(content: SavedBookContent): User
+        removeBook(bookId: ID): User
+    }
 `;
 
 module.exports = typeDefs;
