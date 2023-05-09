@@ -19,11 +19,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.use(routes);
 
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
-  server.applyMiddleWare({ app });
+  server.applyMiddleware({ app });
 
 
 db.once('open', () => {

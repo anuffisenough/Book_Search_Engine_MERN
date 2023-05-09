@@ -39,15 +39,6 @@ const typeDefs = gql`
         url: String!
         format: MediaDetails
     }
-
-     input MediaDetails {
-        format: MediaFormat!
-        url: String!
-     }
-
-     enum MediaFormat {
-        IMAGE
-     }
      
      type Mutation {
         loginUser(email: String, password: String): Auth
