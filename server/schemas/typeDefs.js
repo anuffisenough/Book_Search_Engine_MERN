@@ -17,16 +17,16 @@ const typeDefs = gql`
         username: String
         email: String
         bookCount: Int
-        savedBooks: [Book]
+        savedBooks: [String]
     }
     
     type Book {
         bookId: ID
-        authors: [Author]
-        description: String
+        authors: [String]
+        description: String!
         title: String
-        image: Image
-        link: Link
+        image: String
+        link: String
     }
     
     type Auth {
@@ -35,16 +35,16 @@ const typeDefs = gql`
     }
 
     input SavedBookContent {
-        authors: [Author]
-        description: String
+        authors: [String]
+        description: String!
         bookId: ID
-        media: [MediaDetails!]
-        link: [MediaDetails!]
+        media: [String!]
+        link: [String!]
     }
 
     input MediaDetails {
         url: String!
-        format: MediaFormat!
+        format: String!
     }
 
      input MediaFormat {
