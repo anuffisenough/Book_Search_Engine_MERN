@@ -76,7 +76,7 @@ const SearchBooks = () => {
 
     try {
       const { data } = await SAVE_BOOK({
-          variables: { book }
+          variables: { $content: bookToSave }
       });
 
       if (!response.ok) {
