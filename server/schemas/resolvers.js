@@ -40,17 +40,36 @@ const resolvers = {
             if (!user) {
                 throw new AuthenticationError('Something went wrong!');
             }
+            const token = signToken(user);
+            return ({token, user});
         },
-        saveBook: async (parent, { SavedBookContent }, context) => {
+        saveBook: async (parent, { book }, context) => {
             if (context.user) {
-                const bookData = await 
-            }
-            return User;
-        },
-        removeBook: async (parent, { bookId }) => {
-            return User;
+                const bookData = await Book.create(book);
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: user._id },
+                    { $addToSet: { savedBooks: bookData.User } },
+                    { new: true, runValidators: true }
+                  );
+                return updatedUser;
+        }
+
+        throw new AuthenticationError('You need to be logged in!')
     },
-},
+        removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                const bookData = await Book.deleteOne({_id: bookId})
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId: params.bookId } } },
+                    { new: true }
+                );
+
+                return updatedUser;
+            }
+
+        }
+    }
 };
 
 module.exports = resolvers;
