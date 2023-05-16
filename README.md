@@ -92,15 +92,15 @@ You’ll need to complete the following tasks in each of these back-end files:
 
 <!-- * `server.js`: Implement the Apollo Server and apply it to the Express server as middleware. Should be done -->
 
-<!-- * `Schemas` directory: (created, done) -->
+<!-- * `Schemas` directory: (created, done) 
 
-	<!-- * `index.js`: Export your typeDefs and resolvers. Done -->
+	<!-- * `index.js`: Export your typeDefs and resolvers. Done 
 
-	* `resolvers.js`: Define the query and mutation functionality to work with the Mongoose models.
+	 `resolvers.js`: Define the query and mutation functionality to work with the Mongoose models.
 
-		**Hint**: Use the functionality in the `user-controller.js` as a guide.
+		**Hint**: Use the functionality in the `user-controller.js` as a guide. 
 
-	* `typeDefs.js`: Define the necessary `Query` and `Mutation` types:
+ * `typeDefs.js`: Define the necessary `Query` and `Mutation` types:
 
 		* `Query` type:
 
@@ -146,7 +146,7 @@ You’ll need to complete the following tasks in each of these back-end files:
 
 			* `token`
 
-			* `user` (References the `User` type.)
+			* `user` (References the `User` type.) -->
 
 
 ### Front-End Specifications
