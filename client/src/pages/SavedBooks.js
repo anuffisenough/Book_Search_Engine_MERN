@@ -34,8 +34,7 @@ const SavedBooks = () => {
           throw new Error('something went wrong!');
         }
 
-        const user = await response.json();
-        setUserData(user);
+
       } catch (err) {
         console.error(err);
       }
