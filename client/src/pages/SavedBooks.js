@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -16,32 +16,32 @@ import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME); 
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK); 
+  const [removeBook ] = useMutation(REMOVE_BOOK); 
   const userData = data?.me || {};
 
-  useQuery(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
+  // useQuery(() => {
+  //   const getUserData = async () => {
+  //     try {
+  //       const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-        if (!token) {
-          return false;
-        }
+  //       if (!token) {
+  //         return false;
+  //       }
 
-        const response = await GET_ME(token);
+  //       const response = await GET_ME(token);
 
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+  //       if (!response.ok) {
+  //         throw new Error('something went wrong!');
+  //       }
 
 
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-    getUserData();
-  }, [userData.length]);
+  //   getUserData();
+  // }, [userData.length]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -52,13 +52,13 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await removeBook(bookId, token);
+      const { data } = await removeBook({ variables: {bookId: bookId}});
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      // upon success, remove book's id from localStorage
+      // // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
@@ -66,7 +66,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userData.length) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Accordion,
   Container,
   Col,
   Form,
@@ -9,6 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
+import { searchGoogleBooks } from '../utils/API';
 import { useMutation } from '@apollo/client'
 import { SAVE_BOOK } from '../utils/mutations';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -16,11 +18,11 @@ import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 const SearchBooks = () => {
   // create state for holding returned google api data  
   const [searchInput, setSearchInput ] = useState('');
-  const response = fetch( `https://www.googleapis.com/books/v1/volumes?q=${searchInput}` );
+  // const response = fetch( `https://www.googleapis.com/books/v1/volumes?q=${searchInput}` );
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
 
-  const [saveBook, { error}] = useMutation(SAVE_BOOK);
+  const [saveBook] = useMutation(SAVE_BOOK);
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
@@ -39,7 +41,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = setSearchedBooks(searchInput);
+      const response = await searchGoogleBooks(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -77,20 +79,20 @@ const SearchBooks = () => {
 
     try {
       const { data } = await saveBook({
-          variables: { $content: bookToSave }
+          variables: { bookData: {...bookToSave }},
       });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      // if book successfully saves to user's account, save book id to state
+      // // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }
   };
-console.log([searchedBooks])
+
   return (
     <>
       <div className="text-light bg-dark p-5">
@@ -125,7 +127,7 @@ console.log([searchedBooks])
             : 'Search for a book to begin'}
         </h2>
         <Row>
-          {[searchedBooks].map((book) => {
+          {searchedBooks.map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border='dark'>

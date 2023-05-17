@@ -8,7 +8,6 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({_id: context.user._id })
                 .select('-__v -password')
-                .populate('savedBooks');
             return userData;
         }
         
@@ -17,7 +16,17 @@ const resolvers = {
 },
 
     Mutation: {
-        loginUser: async (parent, { email, password }) => {
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+
+            // if (!user) {
+            //     throw new AuthenticationError('Something went wrong!');
+            // }
+            const token = signToken(user);
+            return {token, user};
+        },
+        
+        login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
         if (!user) {
@@ -34,21 +43,13 @@ const resolvers = {
       return { token, user };
     },
 
-        addUser: async (parent, { username, email, password}) => {
-            const user = await User.create({ username });
-
-            if (!user) {
-                throw new AuthenticationError('Something went wrong!');
-            }
-            const token = signToken(user);
-            return ({token, user});
-        },
-        saveBook: async (parent, { book }, context) => {
+        
+        saveBook: async (parent, { bookData }, context) => {
             if (context.user) {
-                const bookData = await Book.create(book);
+                // const bookData = await Book.create(book);
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: user._id },
-                    { $addToSet: { savedBooks: bookData.User } },
+                    { _id: context.user._id },
+                    { $push: { savedBooks: bookData } },
                     { new: true, runValidators: true }
                   );
                 return updatedUser;
@@ -57,11 +58,11 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in!')
     },
         removeBook: async (parent, { bookId }, context) => {
-            if (context.user) {
-                const bookData = await Book.deleteOne({_id: bookId})
+            // if (context.user) {
+            //     const bookData = await Book.deleteOne({_id: bookId})
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { savedBooks: { bookId: params.bookId } } },
+                    { $pull: { savedBooks: { bookId: bookId } } },
                     { new: true }
                 );
 
@@ -69,7 +70,6 @@ const resolvers = {
             }
 
         }
-    }
 };
 
 module.exports = resolvers;
