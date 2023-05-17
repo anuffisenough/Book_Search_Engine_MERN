@@ -39,7 +39,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchedBooks(searchInput);
+      const response = setSearchedBooks(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -90,7 +90,7 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
-
+console.log([searchedBooks])
   return (
     <>
       <div className="text-light bg-dark p-5">
@@ -125,7 +125,7 @@ const SearchBooks = () => {
             : 'Search for a book to begin'}
         </h2>
         <Row>
-          {searchedBooks.map((book) => {
+          {[searchedBooks].map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border='dark'>
