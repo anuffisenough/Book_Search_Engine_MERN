@@ -12,18 +12,18 @@
 
 ## User Story
 
-```md
 AS AN avid reader
 I WANT to search for new books to read
 SO THAT I can keep a list of books to purchase
 
 ### Deployment
 
+[GitHub Repository](https://github.com/anuffisenough/Book_Search_Engine_MERN)
+
 Deployed with [Heroku](https://book-search-engine-project.herokuapp.com/)
 
 ### Credits
 
 [Deploy with Heroku and MongoDB Atlas](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-heroku-and-mongodb-atlas)
-```
 
 
