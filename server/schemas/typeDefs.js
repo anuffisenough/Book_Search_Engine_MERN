@@ -42,11 +42,6 @@ const typeDefs = gql`
         image: String
         link: String
     }
-
-    // input MediaDetails {
-    //     url: String!
-    //     format: MediaDetails
-    // }
      
 `;
 

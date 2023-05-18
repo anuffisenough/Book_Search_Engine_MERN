@@ -19,9 +19,6 @@ const resolvers = {
         addUser: async (parent, args) => {
             const user = await User.create(args);
 
-            // if (!user) {
-            //     throw new AuthenticationError('Something went wrong!');
-            // }
             const token = signToken(user);
             return {token, user};
         },
@@ -46,7 +43,7 @@ const resolvers = {
         
         saveBook: async (parent, { bookData }, context) => {
             if (context.user) {
-                // const bookData = await Book.create(book);
+
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: bookData } },
@@ -58,8 +55,7 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in!')
     },
         removeBook: async (parent, { bookId }, context) => {
-            // if (context.user) {
-            //     const bookData = await Book.deleteOne({_id: bookId})
+
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $pull: { savedBooks: { bookId: bookId } } },

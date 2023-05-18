@@ -1,4 +1,3 @@
-//should be good
 const jwt = require('jsonwebtoken');
 
 
